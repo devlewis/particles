@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#canvas1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#stop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: blue;
+  font-size: 120px;
+  transform: translate(-50%, -50%);
+}
+
+#start {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  background-color: blue;
+  font-size: 120px;
+  transform: translate(-50%, -50%);
+}
+
+.selection {
+  position: absolute;
+  top: 10%;
+}
+
+#rain {
+  left: 25%;
+}
+
+#leaves {
+  left: 50%;
+}
+
+#waterfall {
+  left: 75%;
+}

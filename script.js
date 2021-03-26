@@ -1,20 +1,32 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const colorsArr = [
+  "blue",
+  "lightblue",
+  "aliceblue",
+  "aqua",
+  "cornflowerblue",
+  "deepskyblue",
+  "dodgerblue",
+  "lightskyblue",
+  "lightsteelblue",
+];
 let play = true;
 let rainDisabled = false;
 let waterfallDisabled = false;
 let particlesArray = [];
-let numberOfParticles;
-let animationId;
-let size;
-let weight;
-let directionX;
-let directionY;
-let color;
-let pattern;
-let trail;
+let numberOfParticles,
+  animationId,
+  size,
+  weight,
+  directionX,
+  directionY,
+  color,
+  pattern,
+  trail;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 class Particle {
   constructor(x, y) {
@@ -30,12 +42,15 @@ class Particle {
     if (this.y > canvas.height) {
       this.y = 0 - this.size;
       this.weight = 2;
-      this.x = Math.random() * canvas.width * 2;
+      this.x = Math.random() * canvas.width * 1.3;
     }
     this.weight += 0.05;
-    pattern === "waterfall"
-      ? (this.y += this.weight)
-      : (this.y -= this.directionY);
+    if (pattern === "waterfall") {
+      this.y += this.weight;
+      color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
+    } else {
+      this.y -= this.directionY;
+    }
     this.x += this.directionX;
   }
 
@@ -63,8 +78,6 @@ function init() {
   }
 }
 
-init();
-
 function animate() {
   ctx.fillStyle = `rgba(255, 255, 255, ${trail})`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -76,6 +89,7 @@ function animate() {
   animationId = requestAnimationFrame(animate);
 }
 
+init();
 animate();
 
 function playPause(animationId) {
@@ -113,12 +127,12 @@ function waterfall() {
   rainDisabled && (rainDisabled = false);
   document.getElementById("rain").disabled = rainDisabled;
   particlesArray = [];
-  color = "lightblue";
+  color = "blue";
   numberOfParticles = 100;
-  size = 10;
-  directionX = 1;
+  size = 4;
+  directionX = 1.5;
   directionY = 0;
-  weight = 2;
+  weight = 4;
   shape = Math.PI * 2;
   pattern = "waterfall";
   trail = 0.01;

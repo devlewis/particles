@@ -151,10 +151,10 @@ function getCursorPosition(canvas, e) {
   return [x, y];
 }
 
-canvas.addEventListener("mousedown", function (e) {
+document.getElementById("canvas-wrapper").addEventListener("mousedown", function (e) {
   position = getCursorPosition(canvas, e);
   console.log(position);
   let div = document.createElement("div");
-  div.style = `color:brown;position: absolute;top: ${position[1]}px;left: ${position[0]}px;width: 100px;height: 50px;`;
-  document.body.appendChild(div);
+  div.style = `background-color:brown;position: absolute;top: ${position[1]}px;left: ${position[0]}px;width: 100px;height: 50px;`;
+  document.getElementById("canvas-wrapper").appendChild(div);
 });

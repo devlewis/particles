@@ -23,7 +23,8 @@ let numberOfParticles,
   directionY,
   color,
   pattern,
-  trail;
+  trail,
+  position;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -138,3 +139,22 @@ function waterfall() {
   trail = 0.01;
   init();
 }
+
+function getCursorPosition(canvas, e) {
+  const rect = canvas.getBoundingClientRect();
+  console.log(rect);
+  const x = e.clientX - rect.left;
+  console.log(x);
+  const y = e.clientY - rect.top;
+  console.log(y);
+  console.log("x: " + x + "y: " + y);
+  return [x, y];
+}
+
+canvas.addEventListener("mousedown", function (e) {
+  position = getCursorPosition(canvas, e);
+  console.log(position);
+  let div = document.createElement("div");
+  div.style = `color:brown;position: absolute;top: ${position[1]}px;left: ${position[0]}px;width: 100px;height: 50px;`;
+  document.body.appendChild(div);
+});

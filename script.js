@@ -1,5 +1,7 @@
+const canvasW = document.getElementById('canvas-wrapper');
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
+
 const colorsArr = [
   "blue",
   "lightblue",
@@ -11,6 +13,10 @@ const colorsArr = [
   "lightskyblue",
   "lightsteelblue",
 ];
+
+let divArr = [];
+let stones = [];
+
 let play = true;
 let rainDisabled = false;
 let waterfallDisabled = false;
@@ -45,7 +51,7 @@ class Particle {
       this.weight = 2;
       this.x = Math.random() * canvas.width * 1.3;
     }
-    this.weight += 0.05;
+    this.weight += 0.10;
     if (pattern === "waterfall") {
       this.y += this.weight;
       color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
@@ -53,6 +59,18 @@ class Particle {
       this.y -= this.directionY;
     }
     this.x += this.directionX;
+
+    //check for collision between each particle and stones
+    stones.forEach(s => {
+      if (this.x < s.x + s.width && // particle's horizontal exposition less than stone's right edge 
+        this.x + this.size > s.x &&  // particle's horizontal exposition more than stone's left edge 
+        this.y < s.y + s.height && // particle's vertical position is less than stone's bottom edge
+        this.y + this.size > s.y) // particle's vertical position is more than stone's top edge
+      {
+        this.y -= 2;
+        this.weight *= -0.5;
+      }
+    })
   }
 
   draw() {
@@ -87,6 +105,7 @@ function animate() {
     particlesArray[i].draw();
     i === particlesArray.length && particlesArray.push(numberOfParticles);
   }
+  // stones.forEach(s => ctx.fillRect(s.x, s.y, s.width, s.height));
   animationId = requestAnimationFrame(animate);
 }
 
@@ -101,6 +120,8 @@ function playPause(animationId) {
 }
 
 function rain() {
+  canvasW.removeEventListener('click', q);
+  divArr.forEach(div => canvasW.removeChild(div))
   ctx.fillStyle = `rgba(255, 255, 255)`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   document.getElementById("rain").disabled = !rainDisabled;
@@ -121,6 +142,9 @@ function rain() {
 }
 
 function waterfall() {
+  divArr = [];
+  stones = [];
+  canvasW.addEventListener('click', q);
   ctx.fillStyle = `rgba(255, 255, 255)`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   document.getElementById("waterfall").disabled = !waterfallDisabled;
@@ -133,29 +157,44 @@ function waterfall() {
   size = 4;
   directionX = 3;
   directionY = 0;
-  weight = 5;
+  weight = 10;
   shape = Math.PI * 2;
   pattern = "waterfall";
   trail = 0.01;
   init();
 }
 
-const canvasW = document.getElementById('canvas-wrapper');
+
 
 function q(event) {
   event = event || window.event;
   const x = event.pageX - canvasW.offsetLeft;
   const y = event.pageY - canvasW.offsetTop;
 
+  console.log(x);
+  console.log(y);
+
   const div = document.createElement('div');
   div.style.position = "absolute";
   div.style.background = 'gray';
-  div.style.width = '30px';
+  div.style.width = '50px';
   div.style.height = '10px';
   div.style.left = x + 'px';
   div.style.top = y + 'px';
+  div.className = "stone";
 
   canvasW.appendChild(div);
+  divArr.push(div);
+
+  console.log(divArr);
+  stones = Array.from(divArr).map(s => {
+    return {
+      x: s.offsetLeft + 20,
+      y: s.offsetTop,
+      width: s.clientWidth,
+      height: s.clientHeight,
+    }
+  })
 }
 
-canvasW.addEventListener('click', q);
+

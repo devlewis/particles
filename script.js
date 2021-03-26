@@ -129,32 +129,33 @@ function waterfall() {
   document.getElementById("rain").disabled = rainDisabled;
   particlesArray = [];
   color = "blue";
-  numberOfParticles = 100;
+  numberOfParticles = 150;
   size = 4;
-  directionX = 1.5;
+  directionX = 3;
   directionY = 0;
-  weight = 4;
+  weight = 5;
   shape = Math.PI * 2;
   pattern = "waterfall";
   trail = 0.01;
   init();
 }
 
-function getCursorPosition(canvas, e) {
-  const rect = canvas.getBoundingClientRect();
-  console.log(rect);
-  const x = e.clientX - rect.left;
-  console.log(x);
-  const y = e.clientY - rect.top;
-  console.log(y);
-  console.log("x: " + x + "y: " + y);
-  return [x, y];
+const canvasW = document.getElementById('canvas-wrapper');
+
+function q(event) {
+  event = event || window.event;
+  const x = event.pageX - canvasW.offsetLeft;
+  const y = event.pageY - canvasW.offsetTop;
+
+  const div = document.createElement('div');
+  div.style.position = "absolute";
+  div.style.background = 'gray';
+  div.style.width = '30px';
+  div.style.height = '10px';
+  div.style.left = x + 'px';
+  div.style.top = y + 'px';
+
+  canvasW.appendChild(div);
 }
 
-document.getElementById("canvas-wrapper").addEventListener("mousedown", function (e) {
-  position = getCursorPosition(canvas, e);
-  console.log(position);
-  let div = document.createElement("div");
-  div.style = `background-color:brown;position: absolute;top: ${position[1]}px;left: ${position[0]}px;width: 100px;height: 50px;`;
-  document.getElementById("canvas-wrapper").appendChild(div);
-});
+canvasW.addEventListener('click', q);

@@ -16,7 +16,6 @@ const colorsArr = [
 
 let divArr = [];
 let stones = [];
-
 let play = true;
 let rainDisabled = false;
 let waterfallDisabled = false;
@@ -30,11 +29,11 @@ let numberOfParticles,
   color,
   pattern,
   trail,
-  position;
+  position,
+  stone = 0;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
 class Particle {
   constructor(x, y) {
     this.x = x;
@@ -65,8 +64,8 @@ class Particle {
       if (this.x < s.x + s.width && // particle's horizontal exposition less than stone's right edge 
         this.x + this.size > s.x &&  // particle's horizontal exposition more than stone's left edge 
         this.y < s.y + s.height && // particle's vertical position is less than stone's bottom edge
-        this.y + this.size > s.y) // particle's vertical position is more than stone's top edge
-      {
+        this.y + this.size > s.y  // particle's vertical position is more than stone's top edge
+      ) {
         this.y -= 2;
         this.weight *= -0.5;
       }
@@ -105,7 +104,6 @@ function animate() {
     particlesArray[i].draw();
     i === particlesArray.length && particlesArray.push(numberOfParticles);
   }
-  // stones.forEach(s => ctx.fillRect(s.x, s.y, s.width, s.height));
   animationId = requestAnimationFrame(animate);
 }
 
@@ -154,7 +152,7 @@ function waterfall() {
   particlesArray = [];
   color = "blue";
   numberOfParticles = 150;
-  size = 4;
+  size = 8;
   directionX = 3;
   directionY = 0;
   weight = 10;
@@ -171,14 +169,11 @@ function q(event) {
   const x = event.pageX - canvasW.offsetLeft;
   const y = event.pageY - canvasW.offsetTop;
 
-  console.log(x);
-  console.log(y);
-
   const div = document.createElement('div');
   div.style.position = "absolute";
   div.style.background = 'gray';
-  div.style.width = '50px';
-  div.style.height = '10px';
+  div.style.width = '100px';
+  div.style.height = '50px';
   div.style.left = x + 'px';
   div.style.top = y + 'px';
   div.className = "stone";
@@ -188,13 +183,16 @@ function q(event) {
 
   console.log(divArr);
   stones = Array.from(divArr).map(s => {
+    console.log(s.clientWidth, s.clientHeight)
     return {
-      x: s.offsetLeft + 20,
+      x: s.offsetLeft,
       y: s.offsetTop,
-      width: s.clientWidth,
-      height: s.clientHeight,
+      width: 100,
+      height: 50,
     }
   })
 }
+
+
 
 

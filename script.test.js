@@ -1,13 +1,18 @@
-import { fireEvent, getByText } from '@testing-library/dom'
+import { fireEvent, screen, getByText, getByTest } from '@testing-library/dom'
 import '@testing-library/jest-dom/extend-expect'
 import { JSDOM } from 'jsdom'
 import fs from 'fs'
 import path from 'path'
+import { choose, rain, waterfall } from "./script"
+import "jest-canvas-mock"
+
+let canvas;
+let ctx;
 
 const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
 
-let dom
-let container
+let dom;
+let container;
 
 describe('index.html', () => {
     beforeEach(() => {
@@ -16,32 +21,36 @@ describe('index.html', () => {
         // This is indeed dangerous and should only be done with trusted content.
         // https://github.com/jsdom/jsdom#executing-scripts
         dom = new JSDOM(html, { runScripts: 'dangerously' })
-        container = dom.window.document.body
+        container = dom.window.document.body;
+        canvas = document.createElement('canvas').id('canvas1');
+        ctx = canvas.getContext('2d');
     })
 
-    it('renders a heading element', () => {
-        //expect(container.querySelector('div')).not.toBeNull()
-        //expect(getByText(container, 'Pun Generator')).toBeInTheDocument()
+    it('renders a header, two buttons, canvas, and a footer', () => {
+        expect(container.querySelector(`[data-testid="${'header'}"]`)).not.toBeNull();
+        expect(container.querySelectorAll('button')).toHaveLength(2);
+        expect(container.querySelectorAll('canvas')).toHaveLength(1);
+        expect(container.querySelector(`[data-testid="${'footer'}"]`)).not.toBeNull();
+
     })
 
-    it('renders a button element', () => {
-        //expect(container.querySelector('button')).not.toBeNull()
-        //expect(getByText(container, 'Click me for a terrible pun')).toBeInTheDocument()
+    it('renders the buttons with correct text', () => {
+        expect(getByText(container, 'RAIN')).toBeInTheDocument();
+        expect(getByText(container, 'WATERFALL')).toBeInTheDocument()
     })
 
-    // it('renders a new paragraph via JavaScript when the button is clicked', async () => {
-    //     const button = getByText(container, 'Click me for a terrible pun')
+    it('renders a new paragraph via JavaScript when the button is clicked', async () => {
+        const buttonRain = getByText(container, 'RAIN');
+        await fireEvent.click(buttonRain);
+        //expect(choose).toBeCalled();
+        expect(rain).toBeCalled();
 
-    //     fireEvent.click(button)
-    //     let generatedParagraphs = container.querySelectorAll('#pun-container p')
-    //     expect(generatedParagraphs.length).toBe(1)
+        // fireEvent.click(button)
+        // generatedParagraphs = container.querySelectorAll('#pun-container p')
+        // expect(generatedParagraphs.length).toBe(2)
 
-    //     fireEvent.click(button)
-    //     generatedParagraphs = container.querySelectorAll('#pun-container p')
-    //     expect(generatedParagraphs.length).toBe(2)
-
-    //     fireEvent.click(button)
-    //     generatedParagraphs = container.querySelectorAll('#pun-container p')
-    //     expect(generatedParagraphs.length).toBe(3)
-    // })
+        // fireEvent.click(button)
+        // generatedParagraphs = container.querySelectorAll('#pun-container p')
+        // expect(generatedParagraphs.length).toBe(3)
+    })
 })

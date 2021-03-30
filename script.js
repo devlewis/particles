@@ -1,5 +1,7 @@
-const canvasW = document.getElementById('canvas-wrapper');
+const canvasW = document.getElementById("canvas-wrapper");
+console.log(canvasW);
 const canvas = document.getElementById("canvas1");
+console.log(canvas);
 const ctx = canvas.getContext("2d");
 
 const colorsArr = [
@@ -47,7 +49,7 @@ class Particle {
       this.weight = 2;
       this.x = Math.random() * canvas.width * 1.3;
     }
-    this.weight += 0.10;
+    this.weight += 0.1;
     if (pattern === "waterfall") {
       this.y += this.weight * 1.75;
       color = colorsArr[Math.floor(Math.random() * colorsArr.length)];
@@ -107,7 +109,7 @@ function choose(sim) {
   ctx.fillStyle = `rgba(255, 255, 255)`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   particlesArray = [];
-  sim === 'rain' ? rain() : waterfall();
+  sim === "rain" ? rain() : waterfall();
 }
 
 function rain() {
@@ -142,6 +144,4 @@ function waterfall() {
   init();
 }
 
-module.exports = { choose, rain, waterfall }
-
-
+module.exports = { choose, rain, waterfall, pattern };

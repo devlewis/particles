@@ -1,6 +1,6 @@
 const canvasW = document.getElementById("canvas-wrapper");
 console.log(canvasW);
-const canvas = document.getElementById("canvas1");
+const canvas = document.getElementsByTagName("canvas");
 console.log(canvas);
 const ctx = canvas.getContext("2d");
 

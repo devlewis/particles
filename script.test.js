@@ -10,8 +10,6 @@ import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
 import { choose, rain, waterfall, pattern } from "./script";
-import "jest-canvas-mock";
-import { Canvas } from "canvas";
 
 // let canvas;
 // let ctx;
@@ -31,50 +29,50 @@ describe("index.html", () => {
     // https://github.com/jsdom/jsdom#executing-scripts
     dom = new JSDOM(html, { runScripts: "dangerously" });
     container = dom.window.document.body;
-    function mockCanvas(window) {
-      window.HTMLCanvasElement.prototype.getContext = function () {
-        return {
-          fillRect: function () {},
-          clearRect: function () {},
-          getImageData: function (x, y, w, h) {
-            return {
-              data: new Array(w * h * 4),
-            };
-          },
-          putImageData: function () {},
-          createImageData: function () {
-            return [];
-          },
-          setTransform: function () {},
-          drawImage: function () {},
-          save: function () {},
-          fillText: function () {},
-          restore: function () {},
-          beginPath: function () {},
-          moveTo: function () {},
-          lineTo: function () {},
-          closePath: function () {},
-          stroke: function () {},
-          translate: function () {},
-          scale: function () {},
-          rotate: function () {},
-          arc: function () {},
-          fill: function () {},
-          measureText: function () {
-            return { width: 0 };
-          },
-          transform: function () {},
-          rect: function () {},
-          clip: function () {},
-        };
-      };
+    // function mockCanvas(window) {
+    //   window.HTMLCanvasElement.prototype.getContext = function () {
+    //     return {
+    //       fillRect: function () {},
+    //       clearRect: function () {},
+    //       getImageData: function (x, y, w, h) {
+    //         return {
+    //           data: new Array(w * h * 4),
+    //         };
+    //       },
+    //       putImageData: function () {},
+    //       createImageData: function () {
+    //         return [];
+    //       },
+    //       setTransform: function () {},
+    //       drawImage: function () {},
+    //       save: function () {},
+    //       fillText: function () {},
+    //       restore: function () {},
+    //       beginPath: function () {},
+    //       moveTo: function () {},
+    //       lineTo: function () {},
+    //       closePath: function () {},
+    //       stroke: function () {},
+    //       translate: function () {},
+    //       scale: function () {},
+    //       rotate: function () {},
+    //       arc: function () {},
+    //       fill: function () {},
+    //       measureText: function () {
+    //         return { width: 0 };
+    //       },
+    //       transform: function () {},
+    //       rect: function () {},
+    //       clip: function () {},
+    //     };
+    //   };
 
-      window.HTMLCanvasElement.prototype.toDataURL = function () {
-        return "";
-      };
-    }
-    const window = dom.window.document.defaultView;
-    mockCanvas(window);
+    //   window.HTMLCanvasElement.prototype.toDataURL = function () {
+    //     return "";
+    //   };
+    // }
+    // const window = dom.window.document.defaultView;
+    // mockCanvas(window);
   });
 
   it("renders a header, two buttons, canvas, and a footer", () => {
@@ -95,52 +93,52 @@ describe("index.html", () => {
 
   it("renders a new paragraph via JavaScript when the button is clicked", async () => {
     const buttonRain = getByText(container, "RAIN");
-    let testId = "canvas1";
-    let newCanvas = dom.window.document.createElement("canvas");
+    // let testId = "canvas1";
+    // let newCanvas = dom.window.document.createElement("canvas");
 
-    newCanvas.setAttribute("id", testId);
+    // newCanvas.setAttribute("id", testId);
 
-    function bindToNode(node, name, fn) {
-      node[name] = fn.bind(node);
-    }
+    // function bindToNode(node, name, fn) {
+    //   node[name] = fn.bind(node);
+    // }
 
-    bindToNode(newCanvas, "getContext", () => {
-      return {
-        fillRect: function () {},
-        clearRect: function () {},
-        getImageData: function (x, y, w, h) {
-          return {
-            data: new Array(w * h * 4),
-          };
-        },
-        putImageData: function () {},
-        createImageData: function () {
-          return [];
-        },
-        setTransform: function () {},
-        drawImage: function () {},
-        save: function () {},
-        fillText: function () {},
-        restore: function () {},
-        beginPath: function () {},
-        moveTo: function () {},
-        lineTo: function () {},
-        closePath: function () {},
-        stroke: function () {},
-        translate: function () {},
-        scale: function () {},
-        rotate: function () {},
-        arc: function () {},
-        fill: function () {},
-        measureText: function () {
-          return { width: 0 };
-        },
-        transform: function () {},
-        rect: function () {},
-        clip: function () {},
-      };
-    });
-    container.appendChild(newCanvas);
+    // bindToNode(newCanvas, "getContext", () => {
+    //   return {
+    //     fillRect: function () {},
+    //     clearRect: function () {},
+    //     getImageData: function (x, y, w, h) {
+    //       return {
+    //         data: new Array(w * h * 4),
+    //       };
+    //     },
+    //     putImageData: function () {},
+    //     createImageData: function () {
+    //       return [];
+    //     },
+    //     setTransform: function () {},
+    //     drawImage: function () {},
+    //     save: function () {},
+    //     fillText: function () {},
+    //     restore: function () {},
+    //     beginPath: function () {},
+    //     moveTo: function () {},
+    //     lineTo: function () {},
+    //     closePath: function () {},
+    //     stroke: function () {},
+    //     translate: function () {},
+    //     scale: function () {},
+    //     rotate: function () {},
+    //     arc: function () {},
+    //     fill: function () {},
+    //     measureText: function () {
+    //       return { width: 0 };
+    //     },
+    //     transform: function () {},
+    //     rect: function () {},
+    //     clip: function () {},
+    //   };
+    // });
+    // container.appendChild(newCanvas);
     // document.getElementById.mockReturnValue({
     //   canvas: {
     //     getContext: () => {
@@ -154,7 +152,7 @@ describe("index.html", () => {
     //   },
     // });
     //expect(choose).toBeCalled();
-    //await fireEvent.click(buttonRain);
+    await fireEvent.click(buttonRain);
 
     expect(pattern).toEqual("rain");
   });

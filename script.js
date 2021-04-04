@@ -1,7 +1,5 @@
 const canvasW = document.getElementById("canvas-wrapper");
-console.log(canvasW);
-const canvas = document.getElementsByTagName("canvas");
-console.log(canvas);
+const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 
 const colorsArr = [
@@ -143,5 +141,3 @@ function waterfall() {
   trail = 0.01;
   init();
 }
-
-module.exports = { choose, rain, waterfall, pattern };

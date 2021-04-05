@@ -24,7 +24,6 @@
 
 #header {
   display: flex;
-  justify-content: space-around;
   align-items: center;
   background-color: rgb(225, 225, 225);
   position: absolute;
@@ -37,12 +36,12 @@
 button {
   border: #4e9af1;
   border-radius: 2em;
-  background-color:#4e9af1;
+  background-color: #4e9af1;
   color: white;
   height: 30px;
   width: 7em;
   font-size: 1em;
-  text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+  text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
 }
 
 button:disabled {
@@ -50,14 +49,14 @@ button:disabled {
   color: black;
 }
 
-button:hover, #start {
+button:hover,
+#start {
   cursor: pointer;
 }
 
 .selection {
   position: absolute;
   transform: translate(-50%, 0);
-
 }
 
 #rain {

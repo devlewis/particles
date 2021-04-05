@@ -31,6 +31,7 @@ let numberOfParticles,
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
 class Particle {
   constructor(x, y) {
     this.x = x;
@@ -62,7 +63,7 @@ class Particle {
     ctx.beginPath();
     switch (pattern) {
       case "3rd pattern":
-        //new kind of drawing here
+        //developers may add new kind of drawing here
         break;
 
       default:
@@ -141,3 +142,6 @@ function waterfall() {
   trail = 0.01;
   init();
 }
+
+// new pattern function needed for each new pattern developer wishes to add. variables
+// may largely be kept the same.
